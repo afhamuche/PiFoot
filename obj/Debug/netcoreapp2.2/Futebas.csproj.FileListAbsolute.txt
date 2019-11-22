@@ -1,0 +1,11 @@
+/Users/April16/MSVB/Futebas/obj/Debug/netcoreapp2.2/Futebas.csprojAssemblyReference.cache
+/Users/April16/MSVB/Futebas/obj/Debug/netcoreapp2.2/Futebas.csproj.CoreCompileInputs.cache
+/Users/April16/MSVB/Futebas/obj/Debug/netcoreapp2.2/Futebas.AssemblyInfoInputs.cache
+/Users/April16/MSVB/Futebas/obj/Debug/netcoreapp2.2/Futebas.AssemblyInfo.cs
+/Users/April16/MSVB/Futebas/bin/Debug/netcoreapp2.2/Futebas.deps.json
+/Users/April16/MSVB/Futebas/bin/Debug/netcoreapp2.2/Futebas.runtimeconfig.json
+/Users/April16/MSVB/Futebas/bin/Debug/netcoreapp2.2/Futebas.runtimeconfig.dev.json
+/Users/April16/MSVB/Futebas/bin/Debug/netcoreapp2.2/Futebas.dll
+/Users/April16/MSVB/Futebas/bin/Debug/netcoreapp2.2/Futebas.pdb
+/Users/April16/MSVB/Futebas/obj/Debug/netcoreapp2.2/Futebas.dll
+/Users/April16/MSVB/Futebas/obj/Debug/netcoreapp2.2/Futebas.pdb
