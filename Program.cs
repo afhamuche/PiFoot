@@ -4,7 +4,7 @@ using System.Linq;
 
 public class Time {
     private string nome, corUniforme, grito;
-    private int pontos, ID;
+    private int pontos = 0;
     
     public Time(){}
     public Time(string nome, string corUniforme, string grito) {
@@ -36,9 +36,7 @@ public class Time {
     public void setPontos(int p){
         pontos = p;
     }
-    public void setID(int id) {
-        this.ID = ID;
-    }
+    
     
 }
 
@@ -53,26 +51,31 @@ public class Partida {
         this.timeB = timeB;
         numeroGolsTimeA = geradorGols.Next(0,5);
         numeroGolsTimeB = geradorGols.Next(0,5);
-
         System.Console.WriteLine("{0} x {1}", timeA.getNome(), timeB.getNome());
         System.Console.WriteLine("{0} x {1}", numeroGolsTimeA, numeroGolsTimeB);
         if (homeGanhouHuh()) {
             System.Console.WriteLine("{0} ganhou a partida!!", timeA.getNome());
             System.Console.WriteLine(timeA.getGrito());
             System.Console.WriteLine();
-            pontosA = 3;
-            pontosB = 0;
+            pontosA = timeA.getPontos() + 3;
+            pontosB = timeB.getPontos();
+            timeA.setPontos(pontosA);
+            timeB.setPontos(pontosB);
         } else if (awayGanhouHuh()) {
             System.Console.WriteLine("{0} ganhou a partida!!", timeB.getNome());
             System.Console.WriteLine(timeB.getGrito());
             System.Console.WriteLine();
-            pontosA = 0;
-            pontosB = 3;
+            pontosA = timeA.getPontos();
+            pontosB = timeB.getPontos() + 3;
+            timeA.setPontos(pontosA);
+            timeB.setPontos(pontosB);
         } else {
             System.Console.WriteLine("{0} e {1} empataram!!", timeA.getNome(), timeB.getNome());
             System.Console.WriteLine();
-            pontosA = 1;
-            pontosB = 1;
+            pontosA = timeA.getPontos() + 1;
+            pontosB = timeB.getPontos() + 1;
+            timeA.setPontos(pontosA);
+            timeB.setPontos(pontosB);
         }
     }
     public int getNumeroGolsTimeA() {
@@ -93,19 +96,11 @@ public class Partida {
     public int saldoDeGolsTimeB() {
         return numeroGolsTimeB - numeroGolsTimeA;
     }
-
     public bool homeGanhouHuh() {
         return (getNumeroGolsTimeA()-getNumeroGolsTimeB()) >= 1;
     }
     public bool awayGanhouHuh() {
         return (getNumeroGolsTimeB()-getNumeroGolsTimeA()) >= 1;
-    }
-    
-    public int getPontosA() {
-        return pontosA;
-    }
-    public int getPontosB() {
-        return pontosB;
     }
 
 }
@@ -124,8 +119,6 @@ public class Tabela {
             partidaA.getNumeroGolsTimeA(),
             partidaA.getNumeroGolsTimeB(),
             partidaA.saldoDeGolsTimeA());
-
-
         System.Console.WriteLine("{0,-20}; gols: {1}; contra: {2}; saldo: {3,-2}", 
             partidaA.getTimeB().getNome(),
             partidaA.getNumeroGolsTimeB(),
@@ -142,6 +135,7 @@ public class Tabela {
             partidaB.getNumeroGolsTimeA(),
             partidaB.saldoDeGolsTimeB());
     }
+
 }
 
 namespace Futebas
@@ -150,14 +144,12 @@ namespace Futebas
     {
         static void Main(string[] args)
         {
-            List<Partida> listaDePartidas = new List<Partida>();
             Time time1 = new Time("Les Floncs", "Azul", "Allez les Floncs!!");
-            time1.setID(1);
             Time time2 = new Time("Plombo y Plata FC", "Prata", "Viva Pablo!!");
-            time2.setID(2);
             Time time3 = new Time("Tabajaras FC", "Laranja", "Pose de quebrada!!");
-            time3.setID(3);
+
             string nome, corUniforme, grito;
+
             System.Console.WriteLine("Bem-vindo ao Futebas!!");
             System.Console.WriteLine("[1/3] Insira o nome do seu time:");
             nome = Console.ReadLine();
@@ -167,7 +159,7 @@ namespace Futebas
             grito = Console.ReadLine();
 
             Time time4 = new Time(nome, corUniforme, grito);
-            time4.setID(4);
+           
             
             Console.WriteLine("Carregando o jogo!!");
             linha(60);
@@ -180,8 +172,6 @@ namespace Futebas
             System.Console.WriteLine();
             Partida rodada1A = new Partida(time1, time2);
             Partida rodada1B = new Partida(time3, time4);
-            listaDePartidas.Add(rodada1A);
-            listaDePartidas.Add(rodada1B);
             Tabela tabela1 = new Tabela(rodada1A, rodada1B);
             System.Console.WriteLine();
             System.Console.WriteLine("RODADA 2:");
@@ -190,8 +180,6 @@ namespace Futebas
             System.Console.WriteLine();
             Partida rodada2A = new Partida(time2, time3);
             Partida rodada2B = new Partida(time1, time4);
-            listaDePartidas.Add(rodada2A);
-            listaDePartidas.Add(rodada2B);
             Tabela tabela2 = new Tabela(rodada2A, rodada2B);
             System.Console.WriteLine();
             System.Console.WriteLine("RODADA 3:");
@@ -200,15 +188,20 @@ namespace Futebas
             System.Console.WriteLine();
             Partida rodada3A = new Partida(time1, time3);
             Partida rodada3B = new Partida(time2, time4);
-            listaDePartidas.Add(rodada3A);
-            listaDePartidas.Add(rodada3B);
             Tabela tabela3 = new Tabela(rodada3A, rodada3B);
-            listaDePartidas.OrderBy(x=>x.getPontosA()).ToList();
-            listaDePartidas.OrderBy(x=>x.getPontosB()).ToList();
-            foreach (Partida p in listaDePartidas) {
-                System.Console.WriteLine(p.getPontosA() + " Hello Hello " + p.getPontosB());
-                System.Console.WriteLine(p.getTimeA().getNome() + " Hello Hello " + p.getTimeB().getNome());
+            List<Time> listaDeTimes = new List<Time>();
+            listaDeTimes.Add(time1);
+            listaDeTimes.Add(time2);
+            listaDeTimes.Add(time3);
+            listaDeTimes.Add(time4);
+            var ordenada = listaDeTimes.OrderByDescending(x=>x.getPontos()).ToList();
+            System.Console.WriteLine();
+            linha(60);
+            System.Console.WriteLine();
+            foreach (Time t in ordenada) {
+                System.Console.WriteLine("{0,-20}; pontos: {1}", t.getNome(), t.getPontos());
             }
+            System.Console.WriteLine();
             
         }
 
